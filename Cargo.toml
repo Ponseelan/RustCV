@@ -7,3 +7,5 @@ name="ConnectorVertical"
 crate-type = ["cdylib"]
 [dependencies]
 libc = "*"
+serde = "1.0.163"
+serde_json = "1.0.96"

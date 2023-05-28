@@ -1,10 +1,11 @@
 //how to import the struct in EntityRequest.rs
 
+use super::EntityRequest::EntityRequest;
 
-mod Model{
+
+
 pub struct EntityRequestContainer {
     entityRequest: EntityRequest,
-    xapExecutionContext: XapExecutionContext,
+    xapExecutionContext:String,
     requireQAS : bool
-}
 }

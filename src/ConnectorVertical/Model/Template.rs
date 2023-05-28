@@ -3,7 +3,7 @@ use std::os::raw::c_char;
 //#[derive(Deserialize, Debug)]
 #[repr(C)]
 pub  struct Template {
-    pub  name: *mut c_char,
+    pub  name: *mut  c_char,
     pub content: *mut c_char,
 }
 
