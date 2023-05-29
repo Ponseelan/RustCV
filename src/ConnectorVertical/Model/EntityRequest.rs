@@ -7,7 +7,9 @@ use super::{EntityRequestType::EntityRequestType, Query::Query};
 // mod Model{
 pub struct EntityRequest
 {
-    entityRequestType : EntityRequestType,
-    query: Query
+    pub entityRequestType : EntityRequestType,
+    pub query: Query,
+    pub TenantId: String,
+    pub CorrelationId: String
 }
 // }

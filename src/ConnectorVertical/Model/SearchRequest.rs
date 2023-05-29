@@ -1,10 +1,7 @@
+use super::EntityRequestContainer::EntityRequestContainer;
 
-mod Model{
-struct SearchRequest
+
+pub struct SearchRequest
 {
-    // list of Entity request Conainer
-    pub entityRequestContainers: Vec<EntityRequestContainer>,
-    // list of Template
-    pub templates: Vec<Template>,
-}
+    pub EntityRequestContainers: Vec<EntityRequestContainer>
 }

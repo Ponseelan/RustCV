@@ -40,6 +40,7 @@ pub extern "stdcall"  fn ObjectReturnType() -> *mut Template {
 
 #[no_mangle]
 pub extern "C"  fn ObjectTypeAsInput(wrapper:*mut Template) {
+
     let  my_obj= unsafe { &*wrapper };
     // Perform operations with the object
     let mut file: Result<File, std::io::Error> = File::create("C://log.txt");

@@ -5,7 +5,7 @@ use super::EntityRequest::EntityRequest;
 
 
 pub struct EntityRequestContainer {
-    entityRequest: EntityRequest,
-    xapExecutionContext:String,
-    requireQAS : bool
+    pub EntityRequest: EntityRequest,
+    pub XapExecutionContext:String,
+    pub RequireQAS : bool
 }

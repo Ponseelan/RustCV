@@ -4,3 +4,6 @@ pub mod EntityRequestType;
 pub mod Query;
 pub mod QueryType;
 pub mod EntityRequestContainer;
+pub mod LssEntityRequest;
+pub mod SearchRequest;
+pub mod SearchSettingsRequest;
