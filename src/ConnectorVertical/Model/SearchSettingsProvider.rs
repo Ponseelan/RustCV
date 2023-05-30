@@ -1,11 +1,11 @@
 use super::SearchSettingsRequest::SearchSettingRequest;
 
-pub const ScenarioHeader: String =  "X-Scenario".to_string();
 
 
 pub struct SearchSettingsProvider 
 {
-    pub SearchSettingRequest: SearchSettingRequest
+    pub SearchSettingRequest: SearchSettingRequest,
+    pub ScenarioHeader: String
 }
 
 impl SearchSettingsProvider
@@ -14,7 +14,8 @@ impl SearchSettingsProvider
     {
         return SearchSettingsProvider
         {
-            SearchSettingRequest:searchSettingRequest
+            SearchSettingRequest:searchSettingRequest,
+            ScenarioHeader: "X-Scenario".to_string()
         }
     }
 }

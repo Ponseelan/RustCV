@@ -15,3 +15,5 @@ pub mod ErrorLevel;
 pub mod ErrorReport;
 pub mod Diagnostics;
 pub mod ProviderExecutionResult;
+pub mod ProviderType;
+pub mod EntityType;

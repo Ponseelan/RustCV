@@ -1,5 +1,6 @@
 use super::{Event::Event, ErrorReport::ErrorReport, ProviderExecutionResult::ProviderExecutionResult};
 
+#[derive(PartialEq,Clone)]
 pub struct Diagnostics
 {
     //list of Event objects

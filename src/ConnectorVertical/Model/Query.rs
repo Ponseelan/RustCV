@@ -1,6 +1,8 @@
+
+
 use super::QueryType::QueryType;
 
-//#[derive(Copy, Clone)]
+#[derive( Clone)]
 #[repr(C)]
 pub struct Query
 {

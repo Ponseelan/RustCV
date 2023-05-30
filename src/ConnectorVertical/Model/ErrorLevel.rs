@@ -1,5 +1,5 @@
 //create enum for error level
-#[derive(Debug)]
+#[derive(Debug,Clone,PartialEq)]
 pub enum ErrorLevel {
     Warning,
     Error

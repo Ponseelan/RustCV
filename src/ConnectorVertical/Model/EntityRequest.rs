@@ -1,17 +1,16 @@
-use super::{EntityRequestType::EntityRequestType, Query::Query};
+use super::{EntityRequestType::EntityRequestType, Query::Query, EntityType::EntityType, ProviderType::ProviderType};
 
 
 
 
 #[repr(C)]
-#[derive(Copy, Clone)]
-// mod Model{
+#[derive(Clone)]
 pub struct EntityRequest
 {
     pub entityRequestType : EntityRequestType,
     pub query: Query,
     pub TenantId: String,
     pub CorrelationId: String,
-    pub EntityType: EntityType
+    pub EntityType: EntityType,
+    pub ProviderType:ProviderType
 }
-// }
