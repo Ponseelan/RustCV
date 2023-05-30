@@ -1,6 +1,6 @@
 use super::ErrorLevel::ErrorLevel;
 
-#[derive(PartialEq,Clone)]
+#[derive(PartialEq,Clone,serde::Serialize,serde::Deserialize)]
 pub struct ErrorReport
 {
     pub ErrorMessage : String,

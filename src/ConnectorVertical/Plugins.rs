@@ -1,2 +1,2 @@
-mod ScdPreprocessingValidatorPlugin;
+pub mod ScdPreprocessingValidatorPlugin;
 pub mod ResolveVerticalSettingPlugin;

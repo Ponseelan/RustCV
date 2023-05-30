@@ -1,13 +1,15 @@
+
+
 use super::{Event::Event, ErrorReport::ErrorReport, ProviderExecutionResult::ProviderExecutionResult};
 
-#[derive(PartialEq,Clone)]
+#[derive(PartialEq,Clone,serde::Serialize,serde::Deserialize)]
 pub struct Diagnostics
 {
     //list of Event objects
     pub Events: Vec<Event>,
     pub ErrorReport: ErrorReport,
     pub DebugMessages: Vec<(String, String)>,
-    pub ProviderExecutionResults:Vec<ProviderExecutionResult>
+    pub  ProviderExecutionResults: Vec<ProviderExecutionResult>
 }
 
 

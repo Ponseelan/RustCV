@@ -9,3 +9,17 @@ pub struct EntityRequestContainer {
     pub XapExecutionContext:String,
     pub RequireQAS : bool
 }
+
+
+impl EntityRequestContainer
+{
+    pub fn new() -> EntityRequestContainer
+    {
+        EntityRequestContainer
+        {
+            EntityRequest: EntityRequest::new(),
+            XapExecutionContext: String::new(),
+            RequireQAS: false
+        }
+    }
+}

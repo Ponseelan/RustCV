@@ -3,5 +3,6 @@
 #[derive(Clone,PartialEq)]
 pub enum EntityType
 {
-    External
+    External,
+    Files
 }

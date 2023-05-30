@@ -14,3 +14,19 @@ pub struct EntityRequest
     pub EntityType: EntityType,
     pub ProviderType:ProviderType
 }
+
+
+impl EntityRequest{
+    pub fn new() -> EntityRequest
+    {
+        EntityRequest
+        {
+            entityRequestType: EntityRequestType::new(),
+            query: Query::new(),
+            TenantId: String::new(),
+            CorrelationId: String::new(),
+            EntityType: EntityType::External,
+            ProviderType: ProviderType::ConnectorExternal
+        }
+    }
+}

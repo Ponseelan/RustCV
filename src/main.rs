@@ -3,7 +3,7 @@ use std::{os::raw::c_char, ffi::CString};
 
 use ConnectorVertical::Model::Template::Template;
 pub mod  ConnectorVertical;
-pub mod TestConnectorVertical;
+pub mod UnitTest;
 
 
 fn main() {
