@@ -1,4 +1,4 @@
-#[derive(PartialEq,Clone,serde::Serialize,serde::Deserialize)]
+#[derive(PartialEq,Clone,serde::Serialize,serde::Deserialize,Debug,Default)]
 pub enum EventType {
-    None
+   #[default] None
 }

@@ -1,13 +1,5 @@
-#[derive(Copy, Clone)]
-pub struct EntityRequestType
+#[derive(Clone,serde::Serialize,serde::Deserialize,Default)]
+pub enum EntityRequestType
 {
-    
-}
-
-impl EntityRequestType
-{
-    pub fn new() -> EntityRequestType
-    {
-        EntityRequestType{}
-    }
+    #[default] LssEntityRequest
 }

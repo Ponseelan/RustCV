@@ -2,14 +2,20 @@
 
 use super::{Event::Event, ErrorReport::ErrorReport, ProviderExecutionResult::ProviderExecutionResult};
 
-#[derive(PartialEq,Clone,serde::Serialize,serde::Deserialize)]
+
+#[derive(PartialEq,Clone,serde::Serialize,serde::Deserialize,Debug,Default)]
 pub struct Diagnostics
 {
+    #[serde(default)]
     //list of Event objects
     pub Events: Vec<Event>,
-    pub ErrorReport: ErrorReport,
-    pub DebugMessages: Vec<(String, String)>,
-    pub  ProviderExecutionResults: Vec<ProviderExecutionResult>
+  
+      #[serde(default)]
+      pub ErrorReport:ErrorReport,
+    //  #[serde(skip_deserializing)]
+    // pub DebugMessages: Vec<(String, String)>,
+     #[serde(default)]
+     pub  ProviderExecutionResults:Vec<ProviderExecutionResult>
 }
 
 
@@ -21,7 +27,7 @@ impl Diagnostics
         {
             Events: Vec::new(),
             ErrorReport: ErrorReport::new(),
-            DebugMessages: Vec::new(),
+           // DebugMessages: Vec::new() ,
             ProviderExecutionResults:Vec::new()
         }
     }

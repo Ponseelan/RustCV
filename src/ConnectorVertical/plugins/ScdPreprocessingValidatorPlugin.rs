@@ -82,7 +82,6 @@ pub fn new() -> ScdPreprocessingValidatorPlugin
 
     pub fn UpdateDiagnostics(diagnostics :  & mut Diagnostics, errorCode:String, errorMessage:String) 
     {
-        
         let mut errorReport=ErrorReport::new(); 
         errorReport.ErrorMessage=errorMessage;
         let event:Event = Event::createEvent(EventType::None,errorReport,errorCode);
@@ -92,7 +91,7 @@ pub fn new() -> ScdPreprocessingValidatorPlugin
     pub fn  GetTotalLatencyAndFailedProvider(& mut self, diagnostics :  &Diagnostics)
     {
 
-        let   SCD_PREPPROCESSING_PROVIDERS:HashSet<String> = HashSet::from(["VertSetting".to_string(),"ConnSetting".to_string(),"MRTDataBuilder".to_string(),"FslTotalTime".to_string(),"EssReplicaApi".to_string()]);
+        let SCD_PREPPROCESSING_PROVIDERS:HashSet<String> = HashSet::from(["VertSetting".to_string(),"ConnSetting".to_string(),"MRTDataBuilder".to_string(),"FslTotalTime".to_string(),"EssReplicaApi".to_string()]);
         let SCD_PREPPROCESSING_LATENCY_PROVIDERS:HashSet<String> = HashSet::from(["VertSetting".to_string(),"ConnSetting".to_string(),"MRTDataBuilder".to_string(),"EssReplicaApi".to_string()]);
         unsafe{
       let providerExecutionResults = &(diagnostics.ProviderExecutionResults);
@@ -100,7 +99,7 @@ pub fn new() -> ScdPreprocessingValidatorPlugin
       {
           let providerName = &providerExecutionResult.ProviderName;
           let providerLatency = providerExecutionResult.Latency;
-         // let providerFailed = providerExecutionResult.Failed;
+       
          
           if (SCD_PREPPROCESSING_PROVIDERS.contains(providerName) && !providerExecutionResult.Success && self.failedProvider== ProviderExecutionResult::default())
           {

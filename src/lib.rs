@@ -1,14 +1,16 @@
 use std::os::raw::c_char;
 use std::string;
 use std::ffi::CString;
-use ConnectorVertical::Model::Diagnostics;
+use ConnectorVertical::Model::Diagnostics::Diagnostics;
+use ConnectorVertical::Model::SearchRequest::SearchRequest;
 use ConnectorVertical::Model::Template::Template;
+use ConnectorVertical::Plugins::ScdPreprocessingValidatorPlugin::ScdPreprocessingValidatorPlugin;
 use std::iter;
 use std::fs::File;
 use std::io::Write;
 use std::ffi::CStr;
 
-extern crate libc;
+
 
 fn log_message(file: &mut File, message: &str)  {
     // Write the message to the file
@@ -70,22 +72,31 @@ pub extern "C" fn free_string(ptr: *mut c_char) {
 
 
 #[no_mangle]
-pub extern "C" fn ScdPreprocessingValidatorPlugin(s: *mut c_char) -> *mut c_char
+pub extern "C" fn ScdPreprocessingValidatorPluginRust(diagnostics: *mut c_char , searchRequest : *mut c_char) -> *mut c_char
 {
     let c_str = unsafe {
-        assert!(!s.is_null());
+        assert!(!diagnostics.is_null());
 
-        CStr::from_ptr(s)
+        CStr::from_ptr(diagnostics)
     };
     let templates=c_str.to_str().unwrap();
+    let unwrappedSearchRerquest = unsafe {
+        assert!(!searchRequest.is_null());
+
+        CStr::from_ptr(searchRequest)
+    };
+    let unwrappedSearchRerquest=unwrappedSearchRerquest.to_str().unwrap();
 //deserialize the templates 
 let mut file: Result<File, std::io::Error> = File::create("C://log.txt");
 let fileobj=& mut file.expect("msg");
 log_message(fileobj, templates);
-let templates: Template = serde_json::from_str(templates).unwrap();
-log_message(fileobj, &templates.content);
-
+let diagnostics: Diagnostics = serde_json::from_str(templates).unwrap();
+let searchRequest: SearchRequest = serde_json::from_str(unwrappedSearchRerquest).unwrap();
+let mut scdPreProcessingValidatorPlugin = ScdPreprocessingValidatorPlugin::new();
+let diagnostics=scdPreProcessingValidatorPlugin.Execute(diagnostics, searchRequest);
+let messafes=serde_json::to_string(&diagnostics).unwrap();
+log_message(fileobj, &messafes);
+CString::new(messafes).unwrap().into_raw()
 //serialize the template type
-let mut serialized = serde_json::to_string(&templates).unwrap();
-CString::new(serialized).unwrap().into_raw()
+
 }

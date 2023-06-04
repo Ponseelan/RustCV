@@ -1,11 +1,5 @@
-#[derive(Copy, Clone)]
-pub struct QueryType
-{}  
-
-impl QueryType
+#[derive(Copy, Clone,serde::Serialize,serde::Deserialize,Default)]
+pub enum QueryType
 {
-    pub fn new() -> QueryType
-    {
-        QueryType{}
-    }
-}
+    #[default]None
+}  

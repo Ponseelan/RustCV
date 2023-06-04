@@ -2,11 +2,11 @@
 
 use super::EntityRequest::EntityRequest;
 
-
-
+#[derive(Clone,serde::Serialize,serde::Deserialize,Default)]
 pub struct EntityRequestContainer {
+    #[serde(default)]
     pub EntityRequest: EntityRequest,
-    pub XapExecutionContext:String,
+    #[serde(default)]
     pub RequireQAS : bool
 }
 
@@ -17,8 +17,8 @@ impl EntityRequestContainer
     {
         EntityRequestContainer
         {
-            EntityRequest: EntityRequest::new(),
-            XapExecutionContext: String::new(),
+           EntityRequest: EntityRequest::new(),
+            //XapExecutionContext: String::new(),
             RequireQAS: false
         }
     }

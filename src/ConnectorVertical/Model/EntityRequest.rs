@@ -1,17 +1,23 @@
-use super::{EntityRequestType::EntityRequestType, Query::Query, EntityType::EntityType, ProviderType::ProviderType};
+use super::{EntityRequestType::EntityRequestType, Query::Query, EntityType::EntityType, ProviderType::ProviderType, SearchSettingsProvider};
 
 
 
 
 #[repr(C)]
-#[derive(Clone)]
+#[derive(Clone,serde::Serialize,serde::Deserialize,Default)]
 pub struct EntityRequest
 {
-    pub entityRequestType : EntityRequestType,
+    #[serde(default)]
+    pub EntityRequestType : EntityRequestType,
+    #[serde(default)]
     pub query: Query,
-    pub TenantId: String,
+    // #[serde(default)]
+    // pub TenantId: String,
+    #[serde(default)]
     pub CorrelationId: String,
+    #[serde(default)]
     pub EntityType: EntityType,
+    #[serde(default)]
     pub ProviderType:ProviderType
 }
 
@@ -21,9 +27,9 @@ impl EntityRequest{
     {
         EntityRequest
         {
-            entityRequestType: EntityRequestType::new(),
+            EntityRequestType: EntityRequestType::LssEntityRequest,
             query: Query::new(),
-            TenantId: String::new(),
+           // TenantId: String::new(),
             CorrelationId: String::new(),
             EntityType: EntityType::External,
             ProviderType: ProviderType::ConnectorExternal

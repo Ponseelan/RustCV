@@ -1,6 +1,6 @@
 //create enum for error level
-#[derive(Debug,Clone,PartialEq,serde::Serialize,serde::Deserialize)]
+#[derive(Debug,Clone,PartialEq,serde::Serialize,serde::Deserialize,Default)]
 pub enum ErrorLevel {
-    Warning,
+    #[default] Warning,
     Error
 }

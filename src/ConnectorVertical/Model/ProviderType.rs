@@ -1,5 +1,5 @@
-#[derive(Clone,PartialEq)]
+#[derive(Clone,PartialEq,serde::Serialize,serde::Deserialize,Default)]
 pub enum ProviderType
 {
-    ConnectorExternal
+    #[default] ConnectorExternal
 }
