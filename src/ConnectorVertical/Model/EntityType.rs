@@ -4,5 +4,5 @@
 pub enum EntityType
 {
     #[default] External,
-    Files
+    File
 }

@@ -4,27 +4,15 @@ use std::collections::HashSet;
 use ConnectorVertical::Model::ProviderExecutionResult::ProviderExecutionResult;
 use ConnectorVertical::Model::EntityType::EntityType;
 use ConnectorVertical::Model::ProviderType::ProviderType;
-use std::ptr::null;
 
-use crate::ConnectorVertical::Model::ErrorReport::ErrorReport;
-use crate::ConnectorVertical::Model::Event::Event;
-use crate::ConnectorVertical::Model::EventType::EventType;
+use ConnectorVertical::Model::ErrorReport::ErrorReport;
+use ConnectorVertical::Model::Event::Event;
+use ConnectorVertical::Model::EventType::EventType;
+use ConnectorVertical::Model::EntityRequest::EntityRequest;
+use ConnectorVertical::Model::VerticalSetting::VerticalSetting;
+use ConnectorVertical::Utils::ConnectorHelper::ConnectorHelper;
+use ConnectorVertical::Model::EntityRequestContainer::EntityRequestContainer;
 
-// use libc::{c_char, c_void};
-// use std::ptr::{null, null_mut};
-
-// #[global_allocator]
-// static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
-
-// extern "C" fn write_cb(_: *mut c_void, message: *const c_char) {
-//     print!("{}", String::from_utf8_lossy(unsafe {
-//         std::ffi::CStr::from_ptr(message as *const i8).to_bytes()
-//     }));
-// }
-
-// fn mem_print() {
-//     unsafe { jemalloc_sys::malloc_stats_print(Some(write_cb), null_mut(), null()) }
-// }
 
 pub struct ScdPreprocessingValidatorPlugin
 {
@@ -47,17 +35,17 @@ pub fn new() -> ScdPreprocessingValidatorPlugin
     }
 }
 
-    pub fn Execute(& mut self, inputDiagnostics:Diagnostics , searchRequest:SearchRequest) -> Diagnostics
+    pub fn Execute(& mut self, inputDiagnostics:Diagnostics , searchRequest:& mut SearchRequest) -> Diagnostics
     {
        // mem_print();
         let mut updatedDiagnostics:Diagnostics=Diagnostics::new();
-        let entityRequestContainers=searchRequest.EntityRequestContainers;
+        let entityRequestContainers=searchRequest.EntityRequestContainers.clone();
         // check if the entity request has Entity type as "External"
         for entityRequestContainer in entityRequestContainers
         {
-            let entityRequest=entityRequestContainer.EntityRequest;
-            let entityType: EntityType=entityRequest.EntityType;
-            let externalType=EntityType::External;
+            let entityRequest=&entityRequestContainer.EntityRequest;
+            let entityType:&EntityType=&entityRequest.EntityType;
+            let externalType=&EntityType::External;
             
 
             if entityType == externalType
@@ -75,9 +63,69 @@ pub fn new() -> ScdPreprocessingValidatorPlugin
                     }
                }
             }
+            else
+            {
+             let validVerticalSetting=Self::GetValidVerticalSettings(entityRequest);
+             if validVerticalSetting.len() != entityRequest.VerticalSettings.len()
+             {
+                Self::UpdateRequestWithValidVerticalSettings(searchRequest,validVerticalSetting);
+                
+             }
+            }
         }
        // mem_print();
         updatedDiagnostics
+    }
+
+
+    pub fn GetValidVerticalSettings(entityRequest:&EntityRequest) -> Vec<VerticalSetting>
+    {
+        //check if entity request has vertical settings
+        let mut verticalSettings=entityRequest.VerticalSettings.clone();
+        if(verticalSettings.len() == 0)
+        {
+            return Vec::new();
+        }
+
+        let mut updatedVerticalSettings=Vec::new();
+
+        //iterate vertical settings
+        for verticalSetting in verticalSettings.into_iter()
+        {
+            let clonedVerticalSetting=verticalSetting.clone();
+           if ConnectorHelper::IsValidFlexibleSchemaSettingForAllConnections(entityRequest,verticalSetting)
+           {
+            updatedVerticalSettings.push(clonedVerticalSetting);
+           }
+        }
+        updatedVerticalSettings
+    }
+
+
+    pub fn UpdateRequestWithValidVerticalSettings(searchRequest:& mut SearchRequest, verticalSettingsToReplaced:Vec<VerticalSetting>)
+    {
+        let mut scdEntityRequestContainer=& mut EntityRequestContainer::new();
+        let mut index:usize=0;
+        for entityRequestContainer in & mut searchRequest.EntityRequestContainers
+        {
+            if(entityRequestContainer.EntityRequest.EntityType == EntityType::External)
+            {
+                scdEntityRequestContainer = entityRequestContainer;
+               
+                break;
+            }
+            index+=1;
+        }
+
+        if verticalSettingsToReplaced.len() ==0 && scdEntityRequestContainer.EntityRequest.ProviderType == ProviderType::ConnectorVertical
+        {
+            searchRequest.EntityRequestContainers.remove(index);
+        }
+        else if verticalSettingsToReplaced.len() < scdEntityRequestContainer.EntityRequest.VerticalSettings.len()
+        {
+            scdEntityRequestContainer.EntityRequest.VerticalSettings=verticalSettingsToReplaced;
+        }
+      
     }
 
     pub fn UpdateDiagnostics(diagnostics :  & mut Diagnostics, errorCode:String, errorMessage:String) 
@@ -112,6 +160,8 @@ pub fn new() -> ScdPreprocessingValidatorPlugin
           }
       }
     }
+
+
     }
 
 

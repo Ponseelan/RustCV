@@ -1,0 +1,14 @@
+
+
+namespace Microsoft.SubstrateSearch.V2.Internal
+
+// Definition for the search request
+struct SearchRequest
+{
+  
+
+    // Cache key that uniquely identifies the user. E.g. aad object id of the user, extacted from the oauth identity.
+    30: optional string UserCacheKey = nothing;
+  
+
+}

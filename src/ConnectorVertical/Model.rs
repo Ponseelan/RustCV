@@ -17,3 +17,7 @@ pub mod Diagnostics;
 pub mod ProviderExecutionResult;
 pub mod ProviderType;
 pub mod EntityType;
+pub mod VerticalSetting;
+pub mod FlexibleSchemaSettingItem;
+pub mod ManagedPropertySettingItem;
+pub mod StorePropertyDefinitionSettingItem;

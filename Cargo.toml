@@ -6,6 +6,7 @@ authors = ["fdfd"]
 name="ConnectorVertical"
 crate-type = ["cdylib"]
 [dependencies]
+bond = "0.0.1"
 lazy_static = "1.4.0"
 libc = "*"
 serde = { version = "1.0", features = ["derive"] }

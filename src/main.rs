@@ -6,15 +6,19 @@ pub mod  ConnectorVertical;
 pub mod UnitTest;
 
 
-fn main() {
-    let mut a=vec![1,2,3];
-    print(& mut a);
-    print!("{}",a[0]);
-
+fn main() {  
+let mut template=Template::new(String::from("HelloWorld"),String::from("HelloWorld"));
+let t1=& mut template;
+let t2=& mut template;
+modifyFuinction(& mut  template);
+modifyFuinction(& mut  template);
+print!("{:?}",template);
 }
 
-fn print(list:& mut Vec<i32>)
+
+pub fn modifyFuinction(template:& mut Template)
 {
-    list[0]=11;
-    print!("{:?}",list);
+    unsafe{
+template.Name=String::from("Modified");
+    }
 }
