@@ -1,5 +1,6 @@
 use std::os::raw::c_char;
 use std::ffi::{CString};
+use std::ptr;
 use ConnectorVertical::Model::Diagnostics::Diagnostics;
 use ConnectorVertical::Model::SearchRequest::SearchRequest;
 use ConnectorVertical::Model::Template::Template;
@@ -61,6 +62,7 @@ pub extern "C"  fn ObjectTypeAsInput(wrapper:*mut Template) {
 pub struct MyClass {
     id: libc::c_int,
     name: *const libc::c_char,
+    strings: *mut *mut libc::c_char
 }
 
 #[no_mangle]
@@ -68,16 +70,64 @@ pub extern "C" fn Test(obj: *mut MyClass) {
     unsafe {
         // Access and modify the object properties
         let my_obj = &mut *obj;
-        my_obj.id *= 2;
+        my_obj.id *= 3;
 
         // Convert the name C string to a Rust string and append a suffix
-        // let name_cstr = std::ffi::CStr::from_ptr(my_obj.name);
-        // let name_str = name_cstr.to_str().expect("Invalid UTF-8 string");
-        let modified_name = format!("{} Processed", "Hello World");
+         let name_cstr = std::ffi::CStr::from_ptr(my_obj.name);
+         let name_str = name_cstr.to_str().expect("");
+        let rew= CString::new("John Wick").unwrap().into_raw();
+        let modified_name = String::from("Modified:");
         
         // Convert the modified name back to a C string and update the object
         let modified_name_cstr = std::ffi::CString::new(modified_name).unwrap().as_ptr();
-        my_obj.name = modified_name_cstr;
+        my_obj.name = rew;
+        let mut i: usize = 0;
+       
+
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn ClassObjectModification(obj: *mut MyClass) {
+    unsafe {
+        // Access and modify the object properties
+        let my_obj = &mut *obj;
+        my_obj.id *= 3;
+
+        // Convert the name C string to a Rust string and append a suffix
+         let name_cstr = std::ffi::CStr::from_ptr(my_obj.name);
+         let name_str = name_cstr.to_str().expect("");
+        let rew= CString::new("John Wick").unwrap().into_raw();
+        let modified_name = String::from("Modified:");
+        
+        // Convert the modified name back to a C string and update the object
+        let modified_name_cstr = std::ffi::CString::new(modified_name).unwrap().as_ptr();
+        my_obj.name = rew;
+    
+        //count the array length
+        let mut i: isize = 0;
+        
+
+        //add two new string to the array
+        let mut i: isize = 0;
+        while !(*my_obj.strings.offset(i)).is_null() {
+            i += 1;
+        }
+        
+        let new_string1 = CString::new("New string 1").unwrap().into_raw();
+        let new_string2 = CString::new("New string 2").unwrap().into_raw();
+        //create a List of String with the new strings
+        let mut new_strings: Vec<*const libc::c_char> = Vec::new();
+        new_strings.push(new_string1);
+        new_strings.push(new_string2);
+    
+       // let yt= *my_obj.strings.offset(i );
+        *(my_obj.strings.offset(i ))=new_string1;
+
+    
+        // *(my_obj.strings).offset(i ) =   new_string1;
+        // *my_obj.strings.offset((i + 1)) = new_string2;
+
     }
 }
 
